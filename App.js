@@ -24,6 +24,11 @@ export default function App() {
               Log in
           </Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.loginBtn}>
+            <Text style={styles.textBtnLogin}>
+              Sing up
+          </Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.header}>
@@ -81,12 +86,13 @@ const styles = StyleSheet.create({
   },
 
   areaLogin:{    
-    alignItems:'flex-end',
-    marginBottom: 15
+    flexDirection: 'row',
+    marginBottom: 15,
+    justifyContent:'flex-end'
   },
   loginBtn: {
-    width: 70,
-    marginTop:5
+    marginTop:5,
+    marginEnd: 10
   },
   header: {
     flex: 1,    
@@ -122,7 +128,8 @@ const styles = StyleSheet.create({
   },
   textBtnLogin: {
     color: '#FFF',
-    fontSize:20
+    fontSize:20,
+    
   },
   textBtn: {
     color: '#FFF',

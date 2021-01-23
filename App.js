@@ -37,6 +37,9 @@ export default function App() {
         <navigation.Screen
           name="SingUp"
           component={SingUp}
+          options={{
+            headerShown:false
+          }}
         />
       </navigation.Navigator>
     </NavigationContainer>

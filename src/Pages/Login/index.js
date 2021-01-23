@@ -48,12 +48,16 @@ export default function Login() {
             </View>
 
             <View style={styles.viewBtn}>
-                <TouchableOpacity style={styles.btnLogin}>
+                <TouchableOpacity
+                    style={styles.btnLogin}
+                    onPress={() => alert('Sucess Login')} >
                     <Text style={styles.textBtnLogin}>
                         Log in
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnSingUp}>
+                <TouchableOpacity
+                    style={styles.btnSingUp}
+                    onPress={() => { navigation.navigate('SingUp') }} >
                     <Text style={styles.textBtnSingUp}>
                         Sing up
                     </Text>
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 15,
-        borderBottomColor:'#000',
+        borderBottomColor: '#000',
         borderBottomWidth: 1
     },
 
@@ -110,9 +114,9 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 15,
         marginLeft: 10,
-        color:'#000'
+        color: '#000'
     },
-    
+
     btnLogin: {
         backgroundColor: '#994700',
         width: 320,
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 15,
         borderWidth: 1,
-        borderColor:'#994700'
+        borderColor: '#994700'
     },
     textBtnSingUp: {
         color: '#994700',

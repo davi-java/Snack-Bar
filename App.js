@@ -14,6 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Apresentation from './src/Pages/Apresentation';
 import Login from './src/Pages/Login';
 import SingUp from './src/Pages/SingUp';
+import Home from './src/Pages/Home';
 
 export default function App() {
   const navigation = createStackNavigator();
@@ -40,6 +41,13 @@ export default function App() {
           options={{
             headerShown:false
           }}
+        />
+        <navigation.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerShown:false
+        }}
         />
       </navigation.Navigator>
     </NavigationContainer>

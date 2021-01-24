@@ -50,7 +50,9 @@ export default function App() {
                 </View>
 
                 <View style={styles.areaBtn}>
-                    <TouchableOpacity style={styles.BtnFace}>
+                    <TouchableOpacity
+                        style={styles.BtnFace}
+                        onPress={() => {navigation.navigate('Home')}} >
                         <Icon
                             name="ios-logo-facebook"
                             size={30}

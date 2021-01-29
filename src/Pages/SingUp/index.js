@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet
 } from 'react-native';
@@ -8,8 +8,28 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import firebase from '/home/davi/Documents/React-Native/Projects/Snack_Bar/src/FirebaseConnection/firebaseConnection'
+
 export default function Login() {
     const navigation = useNavigation();
+    const [name,setName] = useState('');
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+
+    async function signUp(){
+        await firebase.auth().createUserWithEmailAndPassword(email,password)
+        .then((value) => {
+            alert('Welcome: ' + value.user.email);
+            setPassword('');
+            setEmail('');
+            setName('');
+            navigation.navigate('Home')
+        })
+        .catch((error) => {
+            alert('Error: ' + error.code);
+        });
+    }
+
     return (
         <View style={styles.container}>
 
@@ -35,7 +55,9 @@ export default function Login() {
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter Name" />
+                        placeholder="Enter Name"
+                        onChangeText={(text => setName(text))}
+                        value={name} />
                 </View>
                 <View style={styles.viewInputIcon}>
                     <Icon
@@ -43,7 +65,9 @@ export default function Login() {
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter Email" />
+                        placeholder="Enter Email"
+                        onChangeText={(text) => setEmail(text)}
+                        value={email} />
                 </View>
                 <View style={styles.viewInputIcon}>
                     <FontAwesome
@@ -51,14 +75,16 @@ export default function Login() {
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter Password" />
+                        placeholder="Enter Password"
+                        onChangeText={(text) => setPassword(text)}
+                        value={password} />
                 </View>
             </View>
 
             <View style={styles.viewBtn}>
                 <TouchableOpacity
                     style={styles.btnLogin}
-                    onPress={() => alert('Creat Sucess Acount')} >
+                    onPress={() => signUp() } >
                     <Text style={styles.textBtnLogin}>
                         Sing up
                     </Text>
@@ -81,20 +107,22 @@ const styles = StyleSheet.create({
         flex: 1
     },
     viewWelcome: {
-        flex: 2,
+        flex: 1,
         backgroundColor: '#994700',
         borderBottomLeftRadius: 100,
-        borderTopEndRadius: 100
+        borderTopEndRadius: 100,
+        zIndex:1
     },
     viewTextInput: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        zIndex: 9
     },
     viewBtn: {
-        flex: 1,
+        flex:1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent:'center'
     },
     viewInputIcon: {
         flexDirection: 'row',
@@ -113,7 +141,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         color: '#FFF',
         fontSize: 35,
-        marginTop: 50
+        marginTop: 25
     },
 
     input: {

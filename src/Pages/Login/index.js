@@ -1,6 +1,6 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
-    View, Text, TextInput, TouchableOpacity, StyleSheet
+    View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -8,8 +8,27 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import firebase from '../../FirebaseConnection/firebaseConnection';
+
+
 export default function Login() {
     const navigation = useNavigation();
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+
+    async function login(){
+        await firebase.auth().signInWithEmailAndPassword(email,password)
+        .then((value) => {
+            alert('Welcome: ' + value.user.email);
+            setEmail('');
+            setPassword('');
+            navigation.navigate('Home',value.user.email);
+            Keyboard.dismiss();
+        })
+        .catch((error) => {
+            alert('Error: ' + error.code);
+        });
+    }
     return (
         <View style={styles.container}>
 
@@ -35,7 +54,9 @@ export default function Login() {
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter Email" />
+                        placeholder="Enter Email"
+                        onChangeText={(text) => setEmail(text)}
+                        value={email} />
                 </View>
                 <View style={styles.viewInputIcon}>
                     <FontAwesome
@@ -43,14 +64,16 @@ export default function Login() {
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter Password" />
+                        placeholder="Enter Password"
+                        onChangeText={(text) => setPassword(text)}
+                        value={password} />
                 </View>
             </View>
 
             <View style={styles.viewBtn}>
                 <TouchableOpacity
                     style={styles.btnLogin}
-                    onPress={() => alert('Sucess Login')} >
+                    onPress={() => login()} >
                     <Text style={styles.textBtnLogin}>
                         Log in
                     </Text>

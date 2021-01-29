@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet
 } from 'react-native';
@@ -9,25 +9,28 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import firebase from '/home/davi/Documents/React-Native/Projects/Snack_Bar/src/FirebaseConnection/firebaseConnection'
-
+console.disableYellowBox = true;
 export default function Login() {
     const navigation = useNavigation();
-    const [name,setName] = useState('');
-    const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    async function signUp(){
-        await firebase.auth().createUserWithEmailAndPassword(email,password)
-        .then((value) => {
-            alert('Welcome: ' + value.user.email);
-            setPassword('');
-            setEmail('');
-            setName('');
-            navigation.navigate('Home')
-        })
-        .catch((error) => {
-            alert('Error: ' + error.code);
-        });
+    async function signUp() {
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((value) => {
+                alert('Welcome: ' + value.user.email);
+                setPassword('');
+                setEmail('');
+                setName('');
+                firebase.database().ref('Users').child(value.user.uid).set({
+                    nome: name
+                })
+                navigation.navigate('Home')
+            })
+            .catch((error) => {
+                alert('Error: ' + error.code);
+            });
     }
 
     return (
@@ -84,18 +87,12 @@ export default function Login() {
             <View style={styles.viewBtn}>
                 <TouchableOpacity
                     style={styles.btnLogin}
-                    onPress={() => signUp() } >
+                    onPress={() => signUp()} >
                     <Text style={styles.textBtnLogin}>
                         Sing up
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.btnSingUp}
-                    onPress={() => { navigation.navigate('Login') }} >
-                    <Text style={styles.textBtnSingUp}>
-                        Log in
-                    </Text>
-                </TouchableOpacity>
+
             </View>
 
         </View>
@@ -111,18 +108,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#994700',
         borderBottomLeftRadius: 100,
         borderTopEndRadius: 100,
-        zIndex:1
+        zIndex: 1
     },
     viewTextInput: {
-        flex: 1,
+        flex: 2,
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 9
     },
     viewBtn: {
-        flex:1,
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent: 'center'
     },
     viewInputIcon: {
         flexDirection: 'row',

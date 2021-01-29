@@ -26,7 +26,7 @@ export default function Login() {
                 firebase.database().ref('Users').child(value.user.uid).set({
                     nome: name
                 })
-                navigation.navigate('Home')
+                navigation.navigate('Home',value.user.email)
             })
             .catch((error) => {
                 alert('Error: ' + error.code);

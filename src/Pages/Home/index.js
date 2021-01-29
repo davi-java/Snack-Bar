@@ -8,12 +8,13 @@ import {
     ImageBackground
 } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ListHamburger from '/home/davi/Documents/React-Native/Projects/Snack_Bar/src/Components/ListHamburger'
 
+import firebase from '../../FirebaseConnection/firebaseConnection'
 
-export default function Home() {
+export default function Home({route}) {
     const [hamburger, setHamburger] = useState(
         [{ id: 1, nome: "Good Day Cafe", location: "cafe-westem Food", price: 15.50, image: 'https://i.pinimg.com/236x/49/f0/c6/49f0c687caa26d160bd9e7fe9985ac78.jpg' },
         { id: 2, nome: "Cheese Lovers", location: "cafe-westem Food", price: 10.50, image: 'https://i.pinimg.com/236x/51/2b/a3/512ba35ee77def168090b95dabdb0036.jpg' },
@@ -26,6 +27,11 @@ export default function Home() {
     );
     const navigation = useNavigation();
     const img = { uri: 'https://i.pinimg.com/564x/8c/3d/6a/8c3d6afa0b055983401bc0d97a17d613.jpg' }
+    async function logout(){
+        await firebase.auth().signOut();
+        alert('Ate mais...');
+        navigation.dispatch(StackActions.popToTop())
+    }
     return (
         <View style={styles.container}>
 
@@ -37,7 +43,7 @@ export default function Home() {
                 >
                     <TouchableOpacity
                         style={styles.btnBack}
-                        onPress={() => navigation.goBack()}
+                        onPress={() => logout()}
                     >
                         <Icon
                             name="ios-chevron-back"
@@ -59,6 +65,7 @@ export default function Home() {
                         <Text style={styles.textLocation}>
                             18 Restaurants nearby
                         </Text>
+                        <Text style={styles.email}>, Login: {route.params}</Text>
                     </View>
 
                 </ImageBackground>
@@ -109,6 +116,11 @@ const styles = StyleSheet.create({
         margin: 10
     },
     textLocation: {
+        color: '#FFF',
+        fontSize: 17,
+        marginLeft: 5
+    }
+    ,email:{
         color: '#FFF',
         fontSize: 17,
         marginLeft: 5
